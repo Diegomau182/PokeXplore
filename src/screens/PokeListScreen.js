@@ -5,8 +5,17 @@ const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983
 //variable que contiene la pantalla(renderizar)
 const PokeListScreen = () => (
     <View style={styles.container}>
-    <ImageBackground source={fondo} style={styles.image}>
-    </ImageBackground>
+      <ImageBackground source={fondo} style={styles.image}>
+      <View style={styles.marco}>
+        <View style={{width: 275, height: 175, backgroundColor:"#e8cc57"}}>
+          <View style={styles.dentroMarco}>
+            <View style={{width: 260, height: 160, backgroundColor:"#ffffff"}}>
+
+            </View>
+          </View>
+        </View>
+      </View>
+      </ImageBackground>
     </View>
 );
 
@@ -21,6 +30,18 @@ const styles = StyleSheet.create({
       resizeMode: "cover",
       justifyContent: "center"
     },
+    marco: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "center"
+    },
+    dentroMarco:{
+      flex: 1,
+      flexDirection: "column",
+      alignItems: 'center',
+      justifyContent: "center"
+    }
+      
 });
 
 export default PokeListScreen;
