@@ -1,11 +1,25 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
-import React from "react";
+import React, { useState } from "react";
 import { ImageBackground, StyleSheet, Text, View} from "react-native";
 import {Input, Button} from "native-base";
+import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
 //variable que contiene la pantalla(renderizar)
-const PokeListScreen = () => (
+const PokeListScreen = () => {
+    const [pokemon, setPokemon] = useState(null);
+    const [error, setError] = useState(false);
+
+    const getPokemon = async () => {
+      try {
+        const rempose = await backend.get(`pokemon/1`);
+        console.log(rempose.data);
+      } catch (error) {
+        setError(true);
+      }
+    }
+    getPokemon();
+    return(
     <View style={styles.container}>
       <ImageBackground source={fondo} style={styles.image}>
         <View style={styles.containerDos}>
@@ -38,7 +52,7 @@ const PokeListScreen = () => (
         </View>
       </ImageBackground>
     </View>
-);
+    )};
 
 
 const styles = StyleSheet.create({
