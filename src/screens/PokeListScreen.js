@@ -1,51 +1,54 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImageBackground, StyleSheet, Text, View} from "react-native";
-import {Input, Button} from "native-base";
+import {Input, Button, Spinner} from "native-base";
 import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
 //variable que contiene la pantalla(renderizar)
 const PokeListScreen = () => {
     const [pokemon, setPokemon] = useState(null);
     const [error, setError] = useState(false);
-
+    //const arregloPokemon = undefined;
     const getPokemon = async () => {
       try {
-        const rempose = await backend.get(`pokemon/1`);
-        console.log(rempose.data);
+
+          const rempose = await backend.get(`pokemon?limit=150&offset=0`);
+          setPokemon(rempose.data);       
       } catch (error) {
         setError(true);
       }
     }
-    getPokemon();
+
+    useEffect(() => {
+      getPokemon();
+    });
+
+    if (!pokemon) {
+      return (
+        <View style={{flex: 1, justifyContent:"center"}}>
+          <Spinner color="#e8cc57"/>
+        </View>
+      )
+    }
     return(
     <View style={styles.container}>
       <ImageBackground source={fondo} style={styles.image}>
         <View style={styles.containerDos}>
-        <View style={{left:20, top:7, width: 250, height: 30, backgroundColor:"#fc0000"}}>
+        <View style={{left:20, top:7, width: 250, height: 30, backgroundColor:"#e8cc57"}}>
           <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKEXPLORER</Text>
         </View>
-          <View style={styles.marco}>
-            <View style={{right:230, top:-23, width: 275, height: 175, backgroundColor:"#e8cc57"}}>
-              <View style={styles.dentroMarco}>
-                <View style={{width: 260, height: 160, backgroundColor:"#ffffff"}}> 
-
-                </View>
-              </View>  
-            </View>
-          </View>
-          <View style={{width:200,right:230,top:283,height:30}}>
+          <View style={{width:200,right:240,top:290,height:30}}>
           <Input placeholder="Search" backgroundColor="#ffffff"></Input>     
           </View> 
-            <Button style={{justifyContent:"center",width:100,height:30, right:225, top:283, backgroundColor:"#fc0000" }}>
+            <Button style={{justifyContent:"center",width:100,height:30, right:225, top:290, backgroundColor:"#fc0000" }}>
               <Text style={{color:"#ffffff"}}>Search</Text>
             </Button>
-            <Button style={{justifyContent:"center",width:200,height:50, right:200, top:300, backgroundColor:"#fc0000" }}>
+            <Button style={{justifyContent:"center",width:200,height:30, right:185, top:290, backgroundColor:"#fc0000" }}>
               <Text style={{color:"#ffffff"}}>More Info</Text>
             </Button>
           <View style={styles.marcoPequeños}>
-            <View style={{left:-400 ,top:-40 ,width: 290, height: 281, backgroundColor:"#fc0000"}}>
+            <View style={{left:-750 ,top:-21 ,width: 650, height: 236, backgroundColor:"#fc0000"}}>
               
             </View>
           </View>
