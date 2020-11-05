@@ -1,7 +1,7 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, StyleSheet, Text, View} from "react-native";
+import { ImageBackground, backgroundColor,StyleSheet, Text, View} from "react-native";
 import {Input, Button, Spinner} from "native-base";
 import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
@@ -34,25 +34,19 @@ const PokeListScreen = () => {
     return(
     <View style={styles.container}>
       <ImageBackground source={fondo} style={styles.image}>
-        <View style={styles.containerDos}>
-        <View style={{left:20, top:7, width: 250, height: 30, backgroundColor:"#e8cc57"}}>
+      <View style={styles.fondo}>
+        <View style={styles.titulo}>
           <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKEXPLORER</Text>
         </View>
-          <View style={{width:200,right:240,top:290,height:30}}>
-          <Input placeholder="Search" backgroundColor="#ffffff"></Input>     
+          <Input placeholder="Search" style={styles.buscar}></Input>     
           </View> 
-            <Button style={{justifyContent:"center",width:100,height:30, right:225, top:290, backgroundColor:"#fc0000" }}>
+            <Button style={styles.botonBuscar}>
               <Text style={{color:"#ffffff"}}>Search</Text>
             </Button>
-            <Button style={{justifyContent:"center",width:200,height:30, right:185, top:290, backgroundColor:"#fc0000" }}>
-              <Text style={{color:"#ffffff"}}>More Info</Text>
+            <Button style={styles.botonInformacion}>
+              <Text style={{color:"#ffffff"}}>More info.</Text>
             </Button>
-          <View style={styles.marcoPequeños}>
-            <View style={{left:-750 ,top:-21 ,width: 650, height: 236, backgroundColor:"#fc0000"}}>
-              
-            </View>
-          </View>
-        </View>
+            
       </ImageBackground>
     </View>
     )};
@@ -63,40 +57,64 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: "column"
     },
-    containerDos: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
+
     image: {
       flex: 1,
       resizeMode: "cover",
       justifyContent: "center"
     },
-    marco: {
-      flex: 1,
-      flexDirection: "column",
-      justifyContent: "center"
+    fondo: {
+      flex:1,
+      justifyContent:"center",
+      marginLeft:0,
+      marginTop:22,
+      backgroundColor:"#fc0000",
+      width:480,
+      maxHeight:450,
+      minHeight:100
+        
     },
-    dentroMarco:{
-      flex: 1,
-      flexDirection: "column",
-      alignItems: 'center',
-      justifyContent: "center"
+    titulo:{
+      flex:1,
+      marginLeft:10,
+      marginTop:10,
+      width: 200, 
+      maxHeight:30,
+      minHeight:30, 
+      justifyContent:"center",
+      backgroundColor:"#e8cc57"
     },
-    marcoPequeños:{
-      flex: 1,
-      flexDirection: "column",
-      alignContent: 'flex-end',
-      justifyContent:'center'
-    },
+    botonBuscar:{
+      flex:1,
+      marginLeft:260,
+      marginTop:23,
+      width:70,
+      maxHeight:30,
+      minHeight:30,
+      justifyContent:"center",
+      backgroundColor:"#fc0000"
 
-    dentroMarcoPequeños: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'center'
     },
-      
+    botonInformacion:{
+      flex:1,
+      marginLeft:120,
+      marginTop:33,
+      width:160,
+      maxHeight:30,
+      minHeight:30,
+      justifyContent:"center",
+      backgroundColor:"#fc0000"
+    },
+    buscar:{
+      flex:1,
+      width:240,
+      marginLeft:5,
+      marginTop:490,
+      backgroundColor:"#ffffff",
+      maxHeight:30,
+      minHeight:30,
+    }
+    
 });
 
 export default PokeListScreen;
