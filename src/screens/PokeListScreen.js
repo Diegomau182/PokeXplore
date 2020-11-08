@@ -1,45 +1,55 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, backgroundColor,StyleSheet, Text, View} from "react-native";
-import {Input, Button, Spinner} from "native-base";
+import { ImageBackground, FlatList,StyleSheet, Text, View,Card,Image} from "react-native";
+import {Input, Button, Spinner, Item, CardItem} from "native-base";
 import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
 //variable que contiene la pantalla(renderizar)
 const PokeListScreen = () => {
     const [pokemon, setPokemon] = useState(null);
     const [error, setError] = useState(false);
-    //const arregloPokemon = undefined;
-    const getPokemon = async () => {
-      try {
 
-          const rempose = await backend.get(`pokemon?limit=150&offset=0`);
-          setPokemon(rempose.data);       
+    const getPokemon = async () => {
+      try 
+      {
+         const rempose = await backend.get(`pokemon?limit=150`);
+        setPokemon(rempose.data);
       } catch (error) {
         setError(true);
       }
     }
-
     useEffect(() => {
+      // Efecto secundario realizar la petición a la API
       getPokemon();
-    });
-
+    }, []);
     if (!pokemon) {
       return (
-        <View style={{flex: 1, justifyContent:"center"}}>
-          <Spinner color="#e8cc57"/>
+        <View style={{flex: 1, justifyContent: "center"}}>
+          <Spinner color="#e8cc57" />
         </View>
       )
     }
+
     return(
     <View style={styles.container}>
       <ImageBackground source={fondo} style={styles.image}>
-      <View style={styles.fondo}>
-        <View style={styles.titulo}>
+      <View style={styles.titulo}>
           <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKEXPLORER</Text>
         </View>
-          <Input placeholder="Search" style={styles.buscar}></Input>     
-          </View> 
+      <View style={styles.fondo}>
+      <FlatList
+      data={pokemon.results}
+      keyExtractor={(item) => item.name}
+        ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
+        renderItem={({ item }) => {
+          return (
+                  <Text>{item.name}</Text>
+          )
+        }}
+      /> 
+      </View>  
+        <Input placeholder="Search" style={styles.buscar}></Input>      
             <Button style={styles.botonBuscar}>
               <Text style={{color:"#ffffff"}}>Search</Text>
             </Button>
@@ -67,17 +77,17 @@ const styles = StyleSheet.create({
       flex:1,
       justifyContent:"center",
       marginLeft:0,
-      marginTop:22,
+      marginTop:20,
       backgroundColor:"#fc0000",
-      width:480,
-      maxHeight:450,
-      minHeight:100
+      width:360,
+      maxHeight:390,
+      minHeight:414
         
     },
     titulo:{
       flex:1,
       marginLeft:10,
-      marginTop:10,
+      marginTop:-26,
       width: 200, 
       maxHeight:30,
       minHeight:30, 
@@ -87,7 +97,7 @@ const styles = StyleSheet.create({
     botonBuscar:{
       flex:1,
       marginLeft:260,
-      marginTop:23,
+      marginTop:-33,
       width:70,
       maxHeight:30,
       minHeight:30,
@@ -109,7 +119,7 @@ const styles = StyleSheet.create({
       flex:1,
       width:240,
       marginLeft:5,
-      marginTop:490,
+      marginTop:32,
       backgroundColor:"#ffffff",
       maxHeight:30,
       minHeight:30,
