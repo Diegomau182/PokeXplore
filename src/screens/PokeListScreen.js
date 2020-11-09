@@ -1,8 +1,8 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, FlatList,StyleSheet, Text, View,Card,Image} from "react-native";
-import {Input, Button, Spinner, Item, CardItem} from "native-base";
+import { ImageBackground, FlatList,StyleSheet, Text, View} from "react-native";
+import {Input, Spinner,Card,CardItem} from "native-base";
 import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
 //variable que contiene la pantalla(renderizar)
@@ -13,7 +13,7 @@ const PokeListScreen = () => {
     const getPokemon = async () => {
       try 
       {
-         const rempose = await backend.get(`pokemon?limit=150`);
+         const rempose = await backend.get(`pokemon?limit=807`);
         setPokemon(rempose.data);
       } catch (error) {
         setError(true);
@@ -35,7 +35,7 @@ const PokeListScreen = () => {
     <View style={styles.container}>
       <ImageBackground source={fondo} style={styles.image}>
       <View style={styles.titulo}>
-          <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKEXPLORER</Text>
+          <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKÉXPLORER</Text>
         </View>
       <View style={styles.fondo}>
       <FlatList
@@ -44,18 +44,17 @@ const PokeListScreen = () => {
         ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
         renderItem={({ item }) => {
           return (
-                  <Text>{item.name}</Text>
+            <View> 
+              <Card style={styles.cardPokemom}>
+                  <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+              </Card>
+            </View>
           )
         }}
       /> 
       </View>  
         <Input placeholder="Search" style={styles.buscar}></Input>      
-            <Button style={styles.botonBuscar}>
-              <Text style={{color:"#ffffff"}}>Search</Text>
-            </Button>
-            <Button style={styles.botonInformacion}>
-              <Text style={{color:"#ffffff"}}>More info.</Text>
-            </Button>
+            
             
       </ImageBackground>
     </View>
@@ -77,54 +76,39 @@ const styles = StyleSheet.create({
       flex:1,
       justifyContent:"center",
       marginLeft:0,
-      marginTop:20,
+      marginTop:15,
       backgroundColor:"#fc0000",
       width:360,
-      maxHeight:390,
+      maxHeight:470,
       minHeight:414
         
     },
     titulo:{
       flex:1,
       marginLeft:10,
-      marginTop:-26,
+      marginTop:-15,
       width: 200, 
       maxHeight:30,
       minHeight:30, 
       justifyContent:"center",
       backgroundColor:"#e8cc57"
     },
-    botonBuscar:{
-      flex:1,
-      marginLeft:260,
-      marginTop:-33,
-      width:70,
-      maxHeight:30,
-      minHeight:30,
-      justifyContent:"center",
-      backgroundColor:"#fc0000"
-
-    },
-    botonInformacion:{
-      flex:1,
-      marginLeft:120,
-      marginTop:33,
-      width:160,
-      maxHeight:30,
-      minHeight:30,
-      justifyContent:"center",
-      backgroundColor:"#fc0000"
-    },
     buscar:{
       flex:1,
       width:240,
-      marginLeft:5,
-      marginTop:32,
+      marginLeft:60,
+      marginTop:43,
       backgroundColor:"#ffffff",
       maxHeight:30,
       minHeight:30,
+    },
+    cardPokemom:{
+      backgroundColor:"#fc0000",
+      width:350,
+      height:50,
+      justifyContent:"center"
+      
     }
-    
 });
 
 export default PokeListScreen;
