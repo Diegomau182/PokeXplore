@@ -2,13 +2,14 @@
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
 import { ImageBackground, FlatList,StyleSheet, Text, View} from "react-native";
-import {Input, Spinner,Card,CardItem} from "native-base";
+import {Input, Spinner,Card,Button, CardItem, Container} from "native-base";
 import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
 //variable que contiene la pantalla(renderizar)
-const PokeListScreen = () => {
+const PokeListScreen = ({navigation}) => {
     const [pokemon, setPokemon] = useState(null);
     const [error, setError] = useState(false);
+    const [Search, setSearch] = useState("");
 
     const getPokemon = async () => {
       try 
@@ -32,32 +33,39 @@ const PokeListScreen = () => {
     }
 
     return(
-    <View style={styles.container}>
-      <ImageBackground source={fondo} style={styles.image}>
-      <View style={styles.titulo}>
-          <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKÉXPLORER</Text>
-        </View>
-      <View style={styles.fondo}>
-      <FlatList
-      data={pokemon.results}
-      keyExtractor={(item) => item.name}
-        ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
-        renderItem={({ item }) => {
-          return (
-            <View> 
-              <Card style={styles.cardPokemom}>
-                  <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
-              </Card>
-            </View>
-          )
-        }}
-      /> 
-      </View>  
-        <Input placeholder="Search" style={styles.buscar}></Input>      
-            
-            
-      </ImageBackground>
-    </View>
+      <Container>
+       <Card>
+        <CardItem header style={{backgroundColor:"#000000"}}>
+          <View style={styles.titulo}>
+            <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKÉXPLORER</Text>
+          </View>
+      </CardItem>
+      <CardItem style={{backgroundColor:"#fc0000"}}>
+        <View style={styles.fondo}>
+          <FlatList
+            data={pokemon.results}
+            keyExtractor={(item) => item.name}
+            ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
+            renderItem={({ item }) => {
+              return (
+                <View> 
+                  <Card style={styles.cardPokemom}>
+                    <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+                  </Card>
+                </View>
+              )
+            }}
+          /> 
+       </View>
+      </CardItem>
+      <CardItem footer style={{backgroundColor:"#000000", height:90}}>
+        <Input placeholder="Search" style={styles.buscar} value={Search} onChangeText={setSearch}></Input>      
+        <Button style={styles.botonBuscar} onPress={() => {navigation.navigate("Resultado Busqueda", {Search})}}>
+              <Text style={{color:"#ffffff", textAlign:"center"}}>Search</Text>
+            </Button>
+      </CardItem>
+      </Card>
+    </Container>
     )};
 
 
@@ -73,38 +81,32 @@ const styles = StyleSheet.create({
       justifyContent: "center"
     },
     fondo: {
-      flex:1,
+      height:370,
       justifyContent:"center",
-      marginLeft:0,
-      marginTop:15,
-      backgroundColor:"#fc0000",
-      width:360,
-      maxHeight:470,
-      minHeight:414
-        
+      backgroundColor:"#fc0000", 
     },
     titulo:{
-      flex:1,
-      marginLeft:10,
-      marginTop:-15,
-      width: 200, 
-      maxHeight:30,
-      minHeight:30, 
+      width:200,
       justifyContent:"center",
       backgroundColor:"#e8cc57"
     },
+    botonBuscar:{
+      backgroundColor:"#fc0000",
+      justifyContent:"center",
+      marginLeft:20,
+      marginTop:12,
+      width:80,
+      height:42,
+    },
+
     buscar:{
-      flex:1,
-      width:240,
-      marginLeft:60,
-      marginTop:43,
       backgroundColor:"#ffffff",
-      maxHeight:30,
-      minHeight:30,
+      width:200,
+      height:39
     },
     cardPokemom:{
       backgroundColor:"#fc0000",
-      width:350,
+      width:310,
       height:50,
       justifyContent:"center"
       
