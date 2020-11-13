@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
       justifyContent: "center"
     },
     fondo: {
-      height:370,
+      height:445,
       justifyContent:"center",
       backgroundColor:"#fc0000", 
     },
