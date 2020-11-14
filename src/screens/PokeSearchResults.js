@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {FlatList,StyleSheet, Text, View} from "react-native";
+import {FlatList,StyleSheet,Image,Text, View,Dimensions} from "react-native";
 import {Spinner,Card,CardItem,Container} from "native-base";
 import backend from "../api/backend";
+const { width, height } = Dimensions.get("window");
 //variable que contiene la pantalla(renderizar)
 const PokeSearchResults = ({route, navigation}) => {
   const [pokemon, setPokemon] = useState(null);
@@ -46,7 +47,11 @@ const PokeSearchResults = ({route, navigation}) => {
           data={pokemon.filter(function(el) {
             return el.name.toLowerCase().indexOf(Search.toLowerCase()) > -1})}
           keyExtractor={(item) => item.name}
-          ListEmptyComponent={<Text>¡No se hºan encontrado ningun pokemon!</Text>}
+          ListEmptyComponent={<View><Image
+            source={require("../../assets/pikachu_what.png")}
+            style={styles.pokemonNotFound}
+          />
+          <Text>¡pokemon not found!</Text></View>}
           renderItem={({ item }) => {
             return (
               <View> 
@@ -69,8 +74,15 @@ const styles = StyleSheet.create({
       justifyContent:"center",
       flexDirection: "column"
     },
+
+    pokemonNotFound: {
+      width:width,
+      height: height * 0.15,
+      resizeMode: "contain", 
+    },
+    
     fondo: {
-      height:455,
+      height: height * 422,
       justifyContent:"center",
       backgroundColor:"#fc0000", 
     },

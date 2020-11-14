@@ -1,8 +1,9 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, FlatList,StyleSheet, Text, View} from "react-native";
+import { ImageBackground, FlatList,StyleSheet, Text, View,Dimensions} from "react-native";
 import {Input, Spinner,Card,Button, CardItem, Container} from "native-base";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import backend from "../api/backend";
 const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
 //variable que contiene la pantalla(renderizar)
@@ -49,9 +50,15 @@ const PokeListScreen = ({navigation}) => {
             renderItem={({ item }) => {
               return (
                 <View> 
-                  <Card style={styles.cardPokemom}>
-                    <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
-                  </Card>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Data Pokemon", { name: item.name })
+                    }
+                  >
+                    <Card style={styles.cardPokemom}>
+                      <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+                    </Card>
+                  </TouchableOpacity>
                 </View>
               )
             }}
