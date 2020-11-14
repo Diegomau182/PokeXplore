@@ -34,24 +34,20 @@ const PokeSearchResults = ({route, navigation}) => {
 
 
   return(
-    <Container>
-     <Card>
-      <CardItem header style={{backgroundColor:"#000000"}}>
-        <View style={styles.titulo}>
-          <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKÉXPLORER</Text>
-        </View>
-    </CardItem>
-    <CardItem style={{backgroundColor:"#fc0000"}}>
-      <View style={styles.fondo}>
-        <FlatList
+    <View style={styles.container}>
+       <View style={styles.encabezado}>
+         <Text style={styles.Titulo}>PokeXplorer</Text>
+       </View>
+       <View style={styles.cuerpo}>
+       <FlatList
           data={pokemon.filter(function(el) {
             return el.name.toLowerCase().indexOf(Search.toLowerCase()) > -1})}
           keyExtractor={(item) => item.name}
-          ListEmptyComponent={<View><Image
+          ListEmptyComponent={<View style={{marginTop:150}}><Image
             source={require("../../assets/pikachu_what.png")}
             style={styles.pokemonNotFound}
           />
-          <Text>¡pokemon not found!</Text></View>}
+          <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>¡pokemon not found!</Text></View>}
           renderItem={({ item }) => {
             return (
               <View> 
@@ -62,41 +58,45 @@ const PokeSearchResults = ({route, navigation}) => {
             )
           }}
         /> 
-     </View>
-    </CardItem>
-    </Card>
-  </Container>
+
+       </View>
+    </View>
   )};
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent:"center",
-      flexDirection: "column"
-    },
-
+  container: {
+    flex: 1,
+    flexDirection:"column",
+  },
+  encabezado:{
+    flex:1,
+    backgroundColor:"#000000",
+    justifyContent:"center",
+  },
+  cuerpo:{
+    flex:5,
+    backgroundColor:"#fc0000",
+    justifyContent:"center",
+    
+  },
     pokemonNotFound: {
-      width:width,
-      height: height * 0.15,
+      marginLeft:70,
+      width:width * 0.50,
+      height: height * 0.20,
       resizeMode: "contain", 
     },
-    
-    fondo: {
-      height: height * 422,
-      justifyContent:"center",
-      backgroundColor:"#fc0000", 
-    },
-    titulo:{
-      width:200,
-      justifyContent:"center",
-      backgroundColor:"#e8cc57"
+    Titulo:{
+      color: "#e8cc57",
+      marginTop: 20,
+      marginLeft:10,
+      fontSize:45,
     },
     cardPokemom:{
       backgroundColor:"#fc0000",
-      width:310,
       height:50,
+      marginRight:30,
+      marginLeft:30,
       justifyContent:"center"
-      
     }
 });
 
