@@ -11,7 +11,6 @@ const PokeListScreen = ({navigation}) => {
     const [pokemon, setPokemon] = useState(null);
     const [error, setError] = useState(false);
     const [Search, setSearch] = useState("");
-
     const getPokemon = async () => {
       try 
       {
