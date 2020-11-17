@@ -1,15 +1,16 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, FlatList,StyleSheet, Text, View} from "react-native";
-import {Input, Spinner,Card,CardItem} from "native-base";
+import {FlatList,StyleSheet, Text, View,Dimensions} from "react-native";
+import {Input, Spinner,Card,Button, CardItem, Container} from "native-base";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import backend from "../api/backend";
-const fondo = {uri: "https://media.discordapp.net/attachments/684522611488849983/770751505724080138/fondo.png"}
+const { width, height } = Dimensions.get("window");
 //variable que contiene la pantalla(renderizar)
-const PokeListScreen = () => {
+const PokeListScreen = ({navigation}) => {
     const [pokemon, setPokemon] = useState(null);
     const [error, setError] = useState(false);
-
+    const [Search, setSearch] = useState("");
     const getPokemon = async () => {
       try 
       {
@@ -32,83 +33,94 @@ const PokeListScreen = () => {
     }
 
     return(
-    <View style={styles.container}>
-      <ImageBackground source={fondo} style={styles.image}>
-      <View style={styles.titulo}>
-          <Text style={{color:"#ffffff", textAlign:"center", fontSize:25}}>POKÉXPLORER</Text>
-        </View>
-      <View style={styles.fondo}>
-      <FlatList
-      data={pokemon.results}
-      keyExtractor={(item) => item.name}
-        ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
-        renderItem={({ item }) => {
-          return (
-            <View> 
-              <Card style={styles.cardPokemom}>
-                  <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
-              </Card>
-            </View>
-          )
-        }}
-      /> 
-      </View>  
-        <Input placeholder="Search" style={styles.buscar}></Input>      
-            
-            
-      </ImageBackground>
-    </View>
+     <View style={styles.container}>
+       <View style={styles.encabezado}>
+         <Text style={styles.Titulo}>PokeXplorer</Text>
+       </View>
+       <View style={styles.cuerpo}>
+       <FlatList
+            data={pokemon.results}
+            keyExtractor={(item) => item.name}
+            ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
+            renderItem={({ item }) => {
+              return (
+                <View> 
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Data Pokemon", { name: item.name })
+                    }
+                  >
+                    <Card style={styles.cardPokemom}>
+                      <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+                    </Card>
+                  </TouchableOpacity>
+                </View>
+              )
+            }}
+          /> 
+
+       </View>
+       <View style={styles.pie}>
+       <Input placeholder="Search" style={styles.Buqueda} value={Search} onChangeText={setSearch}/>
+       <Button style={styles.Boton} onPress={() => {navigation.navigate("Resultado Busqueda", {Search})}}>
+              <Text style={{color:"#ffffff", textAlign:"center"}}>Search</Text>
+            </Button>
+       </View>
+     </View>  
     )};
 
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      flexDirection: "column"
+      flexDirection:"column",
     },
-
-    image: {
-      flex: 1,
-      resizeMode: "cover",
-      justifyContent: "center"
-    },
-    fondo: {
+    encabezado:{
       flex:1,
+      backgroundColor:"#000000",
       justifyContent:"center",
-      marginLeft:0,
-      marginTop:15,
-      backgroundColor:"#fc0000",
-      width:360,
-      maxHeight:470,
-      minHeight:414
-        
     },
-    titulo:{
+    cuerpo:{
+      flex:4,
+      backgroundColor:"#fc0000",
+      justifyContent:"center",
+    },
+    pie:{
       flex:1,
+      flexDirection:"row",
+      justifyContent:"center",
+      backgroundColor:"#000000"
+    },
+    Titulo:{
+      color: "#e8cc57",
+      marginTop: 20,
       marginLeft:10,
-      marginTop:-15,
-      width: 200, 
-      maxHeight:30,
-      minHeight:30, 
-      justifyContent:"center",
-      backgroundColor:"#e8cc57"
+      fontSize:45,
     },
-    buscar:{
-      flex:1,
-      width:240,
-      marginLeft:60,
-      marginTop:43,
+    Buqueda:{
       backgroundColor:"#ffffff",
-      maxHeight:30,
-      minHeight:30,
-    },
-    cardPokemom:{
-      backgroundColor:"#fc0000",
-      width:350,
+      marginTop:30,
+      marginStart:12,
+      marginLeft:10,
+      marginRight:10,
       height:50,
-      justifyContent:"center"
-      
-    }
+    },
+    Boton:{
+      backgroundColor:"#fc0000",
+      marginTop:30,
+      height:50,
+      width:70,
+      marginRight:30,
+      justifyContent:"center",
+      },
+      cardPokemom:{
+        backgroundColor:"#fc0000",
+        height:50,
+        marginRight:30,
+        marginLeft:30,
+        justifyContent:"center"
+      }
+    
 });
 
 export default PokeListScreen;
