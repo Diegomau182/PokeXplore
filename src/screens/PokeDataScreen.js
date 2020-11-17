@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {FlatList,StyleSheet,Image,Text, View,Dimensions} from "react-native";
+import {FlatList,StyleSheet,Text,Image,View,Dimensions,} from "react-native";
 import {Spinner,Card,CardItem,Container} from "native-base";
 import backend from "../api/backend";
+//para llamar a la imagen del pokemon
+import getEnvVars from "../../enviroment";
+const {imgPokemon} = getEnvVars();
+//fin para llamar a la imange del pokemon
 const { width, height } = Dimensions.get("window");
 //variable que contiene la pantalla(renderizar)
 const PokeDataScreen = ({route, navigation}) => {
   const [pokemon, setPokemon] = useState(null);
   const [error, setError] = useState(false);
-  const { Search } = route.params;
+  const { name } = route.params;
   const getPokemon = async () => {
     try 
     {
-       const rempose = await backend.get(`pokemon?limit=807`);
-      setPokemon(rempose.data.results);
+       const rempose = await backend.get(`pokemon/${name}`);
+      setPokemon(rempose.data);
     } catch (error) {
       setError(true);
     }
@@ -28,14 +32,21 @@ const PokeDataScreen = ({route, navigation}) => {
       </View>
     )
   }
+
+  console.log(pokemon)
+
   return(
     <View style={styles.container}>
        <View style={styles.encabezado}>
-         <Text style={styles.Titulo}>Pokemon Name</Text>
+  <Text style={styles.Titulo}>{pokemon.name}</Text>
        </View>
        <View style={styles.cuerpo}>
          <View style={styles.marcoPokemon}>
-
+           <View>
+              <Image source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}}
+              style={styles.pokeImagen}>
+              </Image>
+          </View>
          </View>
         <View style={styles.marcotipo}>
 
@@ -58,7 +69,7 @@ const styles = StyleSheet.create({
     flex:5,
     backgroundColor:"#fc0000",
     justifyContent:"center",
-    
+    flexDirection: "row",
   },
     Titulo:{
       color: "#e8cc57",
@@ -76,20 +87,34 @@ const styles = StyleSheet.create({
 
     //diseña el marco para la imagen de los pokemon
     marcoPokemon:{
+      flex: 1,
       backgroundColor: "#e8cc57",
-      height:210,
-      marginTop:-370,
-      marginRight:190,
-      marginLeft:20,
+      height: 160,
+      marginLeft: 20,
+      marginTop: 23,
+      marginRight: -20,
     },
     
-    //diseña el marco para los tipos
+    //diseña el marco para los tispos
     marcotipo:{
       backgroundColor: "#ffffff",
-      height:110,
-      marginTop:-160,
-      marginLeft:240,
-      marginRight:10,
+      height: 10,
+      marginLeft: 220,
+      marginRight: 15,
+    },
+    //Imagen del pokemon
+    pokeImagen: {
+      width: width * 0.33,
+      height: height * 0.33,
+      marginTop: -40,
+      marginLeft: 10,
+    },
+
+    marcoImgPokemon: {
+      flex:1,
+      backgroundColor: "#ffffff",
+      height:80,
+
     }
 });
 

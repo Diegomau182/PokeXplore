@@ -1,8 +1,8 @@
 //Importar las librerias necesarias
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
-import {FlatList,StyleSheet, Text, View,Dimensions} from "react-native";
-import {Input, Spinner,Card,Button, CardItem, Container} from "native-base";
+import {FlatList,StyleSheet, Text, View,Dimensions,Image} from "react-native";
+import {Input, Spinner,Card,Button} from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import backend from "../api/backend";
 const { width, height } = Dimensions.get("window");
@@ -41,7 +41,11 @@ const PokeListScreen = ({navigation}) => {
        <FlatList
             data={pokemon.results}
             keyExtractor={(item) => item.name}
-            ListEmptyComponent={<Text>¡No se han encontrado ningun pokemon!</Text>}
+            ListEmptyComponent={<View style={{marginTop:150}}><Image
+            source={require("../../assets/pikachu_what.png")}
+            style={styles.pokemonNotFound}
+            />
+            <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>pokemon not found!</Text></View>}
             renderItem={({ item }) => {
               return (
                 <View> 
@@ -119,8 +123,14 @@ const styles = StyleSheet.create({
         marginRight:30,
         marginLeft:30,
         justifyContent:"center"
-      }
-    
+      },
+
+      pokemonNotFound: {
+        marginLeft:70,
+        width:width * 0.50,
+        height: height * 0.20,
+        resizeMode: "contain", 
+      },
 });
 
 export default PokeListScreen;

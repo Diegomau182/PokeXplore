@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {FlatList,StyleSheet,Image,Text, View,Dimensions} from "react-native";
-import {Spinner,Card,CardItem,Container} from "native-base";
+import {Spinner,Card} from "native-base";
 import backend from "../api/backend";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get("window");
 //variable que contiene la pantalla(renderizar)
 const PokeSearchResults = ({route, navigation}) => {
@@ -47,13 +48,19 @@ const PokeSearchResults = ({route, navigation}) => {
             source={require("../../assets/pikachu_what.png")}
             style={styles.pokemonNotFound}
           />
-          <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>¡pokemon not found!</Text></View>}
+          <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>pokemon not found!</Text></View>}
           renderItem={({ item }) => {
             return (
               <View> 
-                <Card style={styles.cardPokemom}>
-                  <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
-                </Card>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Data Pokemon", { name: item.name })
+                    }
+                  >
+                    <Card style={styles.cardPokemom}>
+                      <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+                    </Card>
+                  </TouchableOpacity>
               </View>
             )
           }}
