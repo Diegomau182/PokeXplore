@@ -33,8 +33,6 @@ const PokeDataScreen = ({route, navigation}) => {
     )
   }
 
-  console.log(pokemon)
-
   return(
     <View style={styles.container}>
        <View style={styles.encabezado}>
@@ -42,11 +40,9 @@ const PokeDataScreen = ({route, navigation}) => {
        </View>
        <View style={styles.cuerpo}>
          <View style={styles.marcoPokemon}>
-           <View>
-              <Image source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}}
+              <Image source={{uri:`${imgPokemon}${pokemon.id}.png`}}
               style={styles.pokeImagen}>
               </Image>
-          </View>
          </View>
         <View style={styles.marcotipo}>
 
@@ -89,13 +85,15 @@ const styles = StyleSheet.create({
     marcoPokemon:{
       flex: 1,
       backgroundColor: "#e8cc57",
-      height: 160,
-      marginLeft: 20,
-      marginTop: 23,
-      marginRight: -20,
+      height: 155,
+      marginLeft: 25,
+      marginTop: 30,
+      marginRight: 35,
+      alignContent: "center",
+      justifyContent: "center",
     },
     
-    //diseña el marco para los tispos
+    //diseña el marco para los tipos
     marcotipo:{
       backgroundColor: "#ffffff",
       height: 10,
@@ -104,10 +102,8 @@ const styles = StyleSheet.create({
     },
     //Imagen del pokemon
     pokeImagen: {
-      width: width * 0.33,
-      height: height * 0.33,
-      marginTop: -40,
-      marginLeft: 10,
+      flex: 1,
+      resizeMode: "stretch",
     },
 
     marcoImgPokemon: {
