@@ -33,6 +33,20 @@ const PokeDataScreen = ({route, navigation}) => {
     )
   }
 
+  
+  //recorrer el arreglo del los tipos
+  const type = pokemon.types ;
+  const firstType = type[0];
+  const secondType = type[1];
+  const nameTypeFirst = firstType['type']['name'];
+  var nameTypeSecond = "";
+  if(secondType){
+    nameTypeSecond = secondType['type']['name'];
+  }
+  else{
+    nameTypeSecond = "";
+  }
+  console.log(typeof(nameTypeSecond))
   return(
     <View style={styles.container}>
        <View style={styles.encabezado}>
@@ -44,9 +58,12 @@ const PokeDataScreen = ({route, navigation}) => {
               style={styles.pokeImagen}>
               </Image>
          </View>
-        <View style={styles.marcotipo}>
-
+         <View style={styles.marcotipo}>
+           <Image></Image>
          </View>
+       </View>
+       <View style={styles.Pie}>
+       <Text style={styles.moveset}>Moveset</Text>
        </View>
     </View>
   )};
@@ -61,15 +78,30 @@ const styles = StyleSheet.create({
     backgroundColor:"#000000",
     justifyContent:"center",
   },
-  cuerpo:{
-    flex:5,
+
+  Pie:{
+    flex:2,
     backgroundColor:"#fc0000",
     justifyContent:"center",
     flexDirection: "row",
   },
+
+  cuerpo:{
+    flex:3,
+    backgroundColor:"#fc0000",
+    justifyContent:"center",
+    flexDirection: "row",
+    },
     Titulo:{
       color: "#e8cc57",
       marginTop: 20,
+      marginLeft:10,
+      fontSize:45,
+    },
+
+    moveset:{
+      color: "#e8cc57",
+      marginTop: -170,
       marginLeft:10,
       fontSize:45,
     },
@@ -95,10 +127,12 @@ const styles = StyleSheet.create({
     
     //diseña el marco para los tipos
     marcotipo:{
+      flex:1,
       backgroundColor: "#ffffff",
-      height: 10,
-      marginLeft: 220,
-      marginRight: 15,
+      height: 120,
+      marginLeft: 25,
+      marginTop: 50,
+      marginRight: 35,
     },
     //Imagen del pokemon
     pokeImagen: {
@@ -110,7 +144,6 @@ const styles = StyleSheet.create({
       flex:1,
       backgroundColor: "#ffffff",
       height:80,
-
     }
 });
 
