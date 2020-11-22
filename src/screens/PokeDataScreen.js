@@ -5,6 +5,7 @@ import backend from "../api/backend";
 //para llamar a la imagen del pokemon
 import getEnvVars from "../../enviroment";
 const {imgPokemon} = getEnvVars();
+const {imgTipo} = getEnvVars();
 //fin para llamar a la imange del pokemon
 const { width, height } = Dimensions.get("window");
 //variable que contiene la pantalla(renderizar)
@@ -33,7 +34,6 @@ const PokeDataScreen = ({route, navigation}) => {
     )
   }
 
-  
   //recorrer el arreglo del los tipos
   const type = pokemon.types ;
   const firstType = type[0];
@@ -46,7 +46,9 @@ const PokeDataScreen = ({route, navigation}) => {
   else{
     nameTypeSecond = "";
   }
-  console.log(typeof(nameTypeSecond))
+  //variables para taer del arreglo de los movimientos los nombres
+  const moveSet = pokemon.moves;
+  const move = moveSet.map(attack =>{return(attack.move) });
   return(
     <View style={styles.container}>
        <View style={styles.encabezado}>
@@ -59,11 +61,31 @@ const PokeDataScreen = ({route, navigation}) => {
               </Image>
          </View>
          <View style={styles.marcotipo}>
-           <Image></Image>
+           <Image source={{uri:`${imgTipo}${nameTypeFirst}.png`}} style={styles.pokeType1Img}></Image>
+           <Image source={{uri:`${imgTipo}${nameTypeSecond}.png`}} style={styles.pokeType1Img}></Image>
          </View>
        </View>
        <View style={styles.Pie}>
        <Text style={styles.moveset}>Moveset</Text>
+         <FlatList
+            style={{marginTop:30}}
+            data={move}
+            keyExtractor={(item) => item.name}
+            ListEmptyComponent={<View style={{marginTop:150}}><Image
+            source={require("../../assets/pikachu_what.png")}
+            style={styles.pokemonNotFound}
+            />
+            <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>attack not found!</Text></View>}
+            renderItem={({ item }) => {
+              return (
+                <View> 
+                    <Card style={styles.cardPokemom}>
+                      <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+                    </Card>
+                </View>
+              )
+            }}
+          /> 
        </View>
     </View>
   )};
@@ -83,7 +105,7 @@ const styles = StyleSheet.create({
     flex:2,
     backgroundColor:"#fc0000",
     justifyContent:"center",
-    flexDirection: "row",
+    flexDirection: "column",
   },
 
   cuerpo:{
@@ -101,13 +123,15 @@ const styles = StyleSheet.create({
 
     moveset:{
       color: "#e8cc57",
-      marginTop: -170,
-      marginLeft:10,
+      marginTop: -180,
+      marginLeft:150,
+      marginRight: 150,
       fontSize:45,
     },
     cardPokemom:{
       backgroundColor:"#fc0000",
       height:50,
+      marginTop:5,
       marginRight:30,
       marginLeft:30,
       justifyContent:"center"
@@ -128,7 +152,7 @@ const styles = StyleSheet.create({
     //diseña el marco para los tipos
     marcotipo:{
       flex:1,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#fc0000",
       height: 120,
       marginLeft: 25,
       marginTop: 50,
@@ -144,7 +168,13 @@ const styles = StyleSheet.create({
       flex:1,
       backgroundColor: "#ffffff",
       height:80,
-    }
+    },
+
+    pokeType1Img: {
+      flex: 1,
+      resizeMode: "stretch",
+    },
+
 });
 
 export default PokeDataScreen;
