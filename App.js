@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Lista de Pokemos">
         <Stack.Screen name="Lista de Pokemos" component={PokeListScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="Resultado Busqueda" component={PokeSearchResults}/>
+        <Stack.Screen name="Results Search" component={PokeSearchResults}/>
         <Stack.Screen name="Data Pokemon" component={PokeDataScreen}/>
       </Stack.Navigator>
     </NavigationContainer>

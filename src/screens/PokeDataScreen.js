@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {FlatList,StyleSheet,Text,Image,View,Dimensions,} from "react-native";
 import {Spinner,Card,CardItem,Container} from "native-base";
+import * as Font from "expo-font";
 import backend from "../api/backend";
 //para llamar a la imagen del pokemon
 import getEnvVars from "../../enviroment";
@@ -12,6 +13,7 @@ const { width, height } = Dimensions.get("window");
 const PokeDataScreen = ({route, navigation}) => {
   const [pokemon, setPokemon] = useState(null);
   const [error, setError] = useState(false);
+  const [fonts, setfonts] = useState(false);
   const { name } = route.params;
   const getPokemon = async () => {
     try 
@@ -22,9 +24,17 @@ const PokeDataScreen = ({route, navigation}) => {
       setError(true);
     }
   }
+  const loadFonts = async() => {
+    Font.loadAsync({
+     'Pokemon-Hollow': require(`../../assets/fonts/Pokemon-Hollow.ttf`,),
+     'Pokemon-Solid': require(`../../assets/fonts/Pokemon-Solid.ttf`),
+   });
+   setfonts(true);
+ }
   useEffect(() => {
     // Efecto secundario realizar la petición a la API
     getPokemon();
+    loadFonts();
   }, []);
   if (!pokemon) {
     return (
@@ -115,6 +125,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     },
     Titulo:{
+      fontFamily:'Pokemon-Solid',
       color: "#e8cc57",
       marginTop: 20,
       marginLeft:10,
@@ -122,11 +133,12 @@ const styles = StyleSheet.create({
     },
 
     moveset:{
+      fontFamily:'Pokemon-Solid',
       color: "#e8cc57",
       marginTop: -180,
       marginLeft:150,
       marginRight: 150,
-      fontSize:45,
+      fontSize:42,
     },
     cardPokemom:{
       backgroundColor:"#fc0000",

@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import {FlatList,StyleSheet,Image,Text, View,Dimensions} from "react-native";
 import {Spinner,Card} from "native-base";
 import backend from "../api/backend";
+import * as Font from "expo-font";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get("window");
 //variable que contiene la pantalla(renderizar)
 const PokeSearchResults = ({route, navigation}) => {
+  const [fonts, setfonts] = useState(false);
   const [pokemon, setPokemon] = useState(null);
   const [error, setError] = useState(false);
   const { Search } = route.params;
+  //metodo para ir a traer todos los pokemos
   const getPokemon = async () => {
     try 
     {
@@ -18,9 +21,19 @@ const PokeSearchResults = ({route, navigation}) => {
       setError(true);
     }
   }
+  //metodo para ir a traer a todas las fuentes necesarias
+  const loadFonts = async() => {
+     Font.loadAsync({
+      'Pokemon-Hollow': require(`../../assets/fonts/Pokemon-Hollow.ttf`,),
+      'Pokemon-Solid': require(`../../assets/fonts/Pokemon-Solid.ttf`),
+    });
+    setfonts(true);
+  }
+ 
   useEffect(() => {
     // Efecto secundario realizar la petición a la API
     getPokemon();
+    loadFonts();
   }, []);
   if (!pokemon) {
     return (
@@ -29,11 +42,7 @@ const PokeSearchResults = ({route, navigation}) => {
       </View>
     )
   }
-  /*pokemon.filter(function(el) {
-    return el.name.toLowerCase().indexOf(Search.toLowerCase()) > -1;
-});*/
-
-
+ //renderizado de la pantalla
   return(
     <View style={styles.container}>
        <View style={styles.encabezado}>
@@ -48,7 +57,7 @@ const PokeSearchResults = ({route, navigation}) => {
             source={require("../../assets/pikachu_what.png")}
             style={styles.pokemonNotFound}
           />
-          <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>pokemon not found!</Text></View>}
+          <Text style={styles.texto}>pokemon not found!</Text></View>}
           renderItem={({ item }) => {
             return (
               <View> 
@@ -58,7 +67,7 @@ const PokeSearchResults = ({route, navigation}) => {
                     }
                   >
                     <Card style={styles.cardPokemom}>
-                      <Text style={{color:"#ffffff", textAlign:"center", fontSize:23}}>{item.name}</Text>
+                      <Text style={styles.texto}>{item.name}</Text>
                     </Card>
                   </TouchableOpacity>
               </View>
@@ -69,7 +78,7 @@ const PokeSearchResults = ({route, navigation}) => {
        </View>
     </View>
   )};
-
+//estilo de de componentes de la pantalla
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -79,6 +88,11 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor:"#000000",
     justifyContent:"center",
+  },
+  texto:{
+    color:"#ffffff", 
+    textAlign:"center", 
+    fontSize:23
   },
   cuerpo:{
     flex:5,
@@ -93,6 +107,7 @@ const styles = StyleSheet.create({
       resizeMode: "contain", 
     },
     Titulo:{
+      fontFamily:'Pokemon-Solid',
       color: "#e8cc57",
       marginTop: 20,
       marginLeft:10,
