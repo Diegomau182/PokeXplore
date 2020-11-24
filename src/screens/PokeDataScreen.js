@@ -15,6 +15,7 @@ const PokeDataScreen = ({route, navigation}) => {
   const [error, setError] = useState(false);
   const [fonts, setfonts] = useState(false);
   const { name } = route.params;
+  //metodo para ir a traer el pokemon
   const getPokemon = async () => {
     try 
     {
@@ -24,6 +25,7 @@ const PokeDataScreen = ({route, navigation}) => {
       setError(true);
     }
   }
+  //metodo para traer las fuentes
   const loadFonts = async() => {
     Font.loadAsync({
      'Pokemon-Hollow': require(`../../assets/fonts/Pokemon-Hollow.ttf`,),
