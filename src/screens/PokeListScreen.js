@@ -2,7 +2,7 @@
 //import { Col } from "native-base";
 import React, { useEffect, useState } from "react";
 import {FlatList,StyleSheet, Text, View,Dimensions,Image} from "react-native";
-import {Input, Spinner,Card,Button} from "native-base";
+import {Input, Spinner,Card,Button,Icon} from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import backend from "../api/backend";
 import * as Font from "expo-font";
@@ -81,8 +81,8 @@ const PokeListScreen = ({navigation}) => {
        <View style={styles.pie}>
        <Input placeholder="Search" style={styles.Buqueda} value={Search} onChangeText={setSearch}/>
        <Button style={styles.Boton} onPress={() => {navigation.navigate("Results Search", {Search})}}>
-              <Text style={styles.ajusteTexto}>Search</Text>
-            </Button>
+        <Icon name="search" />
+        </Button>
        </View>
      </View>  
     )};
